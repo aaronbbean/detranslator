@@ -12,43 +12,6 @@ class ldt:
     def getWords(self):
         shuffle(self.langList)
         goodwords = open("Words.txt","r")
-        self.GoodWords = goodwords.read()
-        goodwords.close()
-        self.WordsToMix = self.GoodWords
-    def langLoop(self):
-        writingWords = open("Words.txt","a")
-        for jumble in range(0,50):
-
-            if jumble == 15 or jumble == 30:
-                writingWords.write("\n")
-                writingWords.write(GoogleTranslator(source=self.pastpick, target="en").translate(self.WordsToMix))
-            
-           
-            self.presentpick = choice(self.langList)
-            
-            if self.presentpick == self.pastpick:
-                self.presentpick = choice(self.langList)
-            self.WordsToMix = GoogleTranslator(source=self.pastpick, target=self.presentpick).translate(self.WordsToMix)    
-            self.pastpick = self.presentpick
-            
-        writingWords.write("\n")    
-        writingWords.write(GoogleTranslator(source=self.pastpick, target="en").translate(self.WordsToMix))
-        writingWords.close()
-
-trans =  ldt() 
-
-
-trans.getWords()
-trans.langLoop()
-
-   
-"""
-I'm working on translating one word at a time to remove context. The issue with that is the translator wont let me input one letter like just I or A.
-Because of this I need to combind to words to gether. So far it hasn't worked. this is the code I have so far.
-
-def getWords(self):
-        shuffle(self.langList)
-        goodwords = open("Words.txt","r")
         SplittingWords = goodwords.read()
         
         self.GoodWords = SplittingWords.split()
@@ -61,14 +24,18 @@ def getWords(self):
             if jumble == 15 or jumble == 30:
                 writingWords.write("\n")
                 writingWords.write(GoogleTranslator(source=self.pastpick, target="en").translate(self.WordsToMix))
-            
-            for getRidOfSingles in range(len(self.WordsToMix)):
-                if len(self.WordsToMix[getRidOfSingles]) == 1:
-                    print("Good")
-                    if getRidOfSingles + 1 > len(self.WordsToMix):
-                        self.WordsToMix[getRidOfSingles + 1] = [" ".join(self.WordsToMix[getRidOfSingles + 1 : getRidOfSingles])]    
-                        del self.WordsToMix[getRidOfSingles]
-           
+            """This needs to be modified. The translator needs more letters."""
+            try:
+                for getRidOfSingles in range(len(self.WordsToMix)):
+                
+                    if len(self.WordsToMix[getRidOfSingles]) == 1:
+                        print("Good")
+                        
+                        if getRidOfSingles + 1 > len(self.WordsToMix):
+                            self.WordsToMix[getRidOfSingles] += " " + "".join(self.WordsToMix[getRidOfSingles : getRidOfSingles]) 
+                            del self.WordsToMix[getRidOfSingles + 1]
+                print(self.WordsToMix)
+            except:print("")
             self.presentpick = choice(self.langList)
             
             if self.presentpick == self.pastpick:
@@ -81,5 +48,17 @@ def getWords(self):
             print(self.WordsToMix)
         writingWords.write("\n")    
         writingWords.write(GoogleTranslator(source=self.pastpick, target="en").translate(self.WordsToMix))
-        writingWords.close()"""
+        writingWords.close()
+    def test(self):
+        pass
+        
+
+
+trans =  ldt() 
+
+trans.getWords()
+trans.langLoop()
+
+print(trans.WordsToMix)         
+
 
