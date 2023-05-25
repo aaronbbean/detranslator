@@ -11,29 +11,51 @@ class ldt:
 
     def getWords(self):
         shuffle(self.langList)
-        goodwords = open("Words.txt","r")
-        SplittingWords = goodwords.read()
         
-        self.GoodWords = SplittingWords.split()
+        goodwords = open("Words.txt","r")
+        self.GoodWords = goodwords.read()
         goodwords.close()
         self.WordsToMix = self.GoodWords
     def langLoop(self):
+        writingWords = open("Words.txt","a")
+        for jumble in range(0,50):
+
+            if jumble == 15 or jumble == 30:
+
+                
+                writingWords.write("\n")
+                writingWords.write(GoogleTranslator(source=self.pastpick, target="en").translate(self.WordsToMix))
+
+
+            self.presentpick = choice(self.langList)
+
+            if self.presentpick == self.pastpick:
+                self.presentpick = choice(self.langList)
+          
+            self.WordsToMix = GoogleTranslator(source=self.pastpick, target=self.presentpick).translate(self.WordsToMix)    
+            self.pastpick = self.presentpick
+        
+
+        writingWords.write("\n")    
+        writingWords.write(GoogleTranslator(source=self.pastpick, target="en").translate(self.WordsToMix))
+        writingWords.close()
+    def Exterashuffle(self):
         writingWords = open("Words.txt","a")
         for jumble in range(0,2):
 
             if jumble == 15 or jumble == 30:
                 writingWords.write("\n")
                 writingWords.write(GoogleTranslator(source=self.pastpick, target="en").translate(self.WordsToMix))
-            """This needs to be modified. The translator needs more letters."""
+            
             try:
                 for getRidOfSingles in range(len(self.WordsToMix)):
                 
                     if len(self.WordsToMix[getRidOfSingles]) == 1:
                         print("Good")
                         
-                        if getRidOfSingles + 1 > len(self.WordsToMix):
-                            self.WordsToMix[getRidOfSingles] += " " + "".join(self.WordsToMix[getRidOfSingles : getRidOfSingles]) 
-                            del self.WordsToMix[getRidOfSingles + 1]
+                        #if 
+                        #    self.WordsToMix[getRidOfSingles] += " " + "".join(self.WordsToMix[getRidOfSingles : getRidOfSingles+1]) 
+                        #    del self.WordsToMix[getRidOfSingles + 1]
                 print(self.WordsToMix)
             except:print("")
             self.presentpick = choice(self.langList)
